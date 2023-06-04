@@ -56,6 +56,9 @@ class MainScreen : AppCompatActivity() {
             e.message?.let { toastHere(it) }
         }
 
+        val displayName = intent.getStringExtra("name")
+        b.tvName.text = displayName
+
     }
 
     private fun toastHere(msg: String) {

@@ -48,38 +48,38 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.database.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    implementation("com.google.firebase:firebase-auth-ktx:22.0.0")
+    implementation(libs.firebase.auth.ktx)
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
     // When using the BoM, don't specify versions in Firebase dependencies
     // implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx:21.2.2")
+    implementation(libs.firebase.analytics.ktx)
     // Also add the dependency for the Google Play services library and specify its version
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.6.1")
+    implementation(libs.play.services.auth)
+    implementation(libs.firebase.firestore.ktx)
 
     // coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
     // Material Design
-    implementation("com.google.android.material:material:1.9.0")
+    implementation(libs.material)
 
     //Alert Dialog
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.appcompat)
 
     //Timber logging
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.timber)
     //navigation libraries
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
 // for old android
-    implementation("androidx.multidex:multidex:2.0.1")
+    implementation(libs.androidx.multidex)
 
 }

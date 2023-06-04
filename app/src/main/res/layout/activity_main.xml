@@ -19,6 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/login_nav"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login_with_email" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

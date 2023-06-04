@@ -163,7 +163,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun addNewDocumentForNewUser() {
-        val newUser = User(firstName, lastName, 0, gender)
+        val newUser = User(firstName, lastName, 0, gender, email)
         auth.currentUser?.uid?.let { it ->
             db.collection("users").document(it).set(newUser)
         }
