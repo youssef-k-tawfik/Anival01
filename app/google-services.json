@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1037238224348",
+    "project_id": "anival01",
+    "storage_bucket": "anival01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037238224348:android:1fe473106ec787601a3b19",
+        "android_client_info": {
+          "package_name": "com.example.anival01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037238224348-5s8cd0q5178fq97pb5ub6kru70flmso4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.anival01",
+            "certificate_hash": "3989c74104f1fdf20a96e908f946213f4b64dc32"
+          }
+        },
+        {
+          "client_id": "1037238224348-d77p26c8rgbj5j5ndbacfekluu1sfv40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgGT4okz9-uXjhIf-czwzxr_sArqEaC98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037238224348-d77p26c8rgbj5j5ndbacfekluu1sfv40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

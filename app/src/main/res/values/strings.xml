@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Anival</string>
+    <string name="forgot_password"><u>Forgot password?</u></string>
+    <string name="resend_verification_link_from_here"><u>Resend verification email here</u>.</string>
+    <string name="new_user_click_here_to_register">New user? <u>Click here to register</u>.</string>
+    <string name="login">Login</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="register_new_user">Register new User</string>
+    <string name="gender">Gender</string>
+    <string name="already_have_an_account_click_here_to_login">Already a user? <u>Login here</u>.</string>
+    <string name="enter_email_to_send_reset_link">Enter email to send reset link</string>
+    <string name="send_reset_link">Send Reset link</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="you_have_error_opop_points">You have error?opop points</string>
+</resources>
