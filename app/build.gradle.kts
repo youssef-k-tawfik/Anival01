@@ -17,6 +17,7 @@ android {
         applicationId = "com.example.anival01"
         minSdk = 19
         targetSdk = 33
+        multiDexEnabled = true
         versionCode = 1
         versionName = "1.0"
 
@@ -78,5 +79,7 @@ dependencies {
     //navigation libraries
     implementation ("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation ("androidx.navigation:navigation-ui-ktx:2.5.3")
+// for old android
+    implementation("androidx.multidex:multidex:2.0.1")
 
 }
