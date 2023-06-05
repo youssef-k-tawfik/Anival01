@@ -81,5 +81,9 @@ dependencies {
     implementation (libs.androidx.navigation.ui.ktx)
 // for old android
     implementation(libs.androidx.multidex)
+    //facebook login
+    implementation (libs.facebook.login)
+    implementation (libs.facebook.android.sdk)
+
 
 }

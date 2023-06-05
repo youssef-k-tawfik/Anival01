@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.anival01.databinding.ActivityMainScreenBinding
 import com.example.anival01.login.MainActivity
+import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -29,6 +30,9 @@ class MainScreen : AppCompatActivity() {
         db = Firebase.firestore
 
         b.btnSignOut.setOnClickListener {
+            //fb logout
+            LoginManager.getInstance().logOut()
+
             auth.signOut()
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -55,9 +59,6 @@ class MainScreen : AppCompatActivity() {
             // Error occurred while retrieving the document
             e.message?.let { toastHere(it) }
         }
-
-        val displayName = intent.getStringExtra("name")
-        b.tvName.text = displayName
 
     }
 

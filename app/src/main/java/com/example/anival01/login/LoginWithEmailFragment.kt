@@ -13,14 +13,23 @@ import androidx.navigation.fragment.findNavController
 import com.example.anival01.R
 import com.example.anival01.databinding.FragmentLoginWithEmailBinding
 import com.example.anival01.mainScreen.MainScreen
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.FacebookSdk
+import com.facebook.GraphRequest
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,8 +40,9 @@ class LoginWithEmailFragment : Fragment() {
 
     private lateinit var b: FragmentLoginWithEmailBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseDatabase
+    private lateinit var dbFirestore: FirebaseFirestore
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var callbackManager: CallbackManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +50,9 @@ class LoginWithEmailFragment : Fragment() {
     ): View {
         b = FragmentLoginWithEmailBinding.inflate(layoutInflater)
         auth = FirebaseAuth.getInstance()
-        db = FirebaseDatabase.getInstance()
+        dbFirestore = FirebaseFirestore.getInstance()
+        FacebookSdk.sdkInitialize(requireContext().applicationContext)
+        callbackManager = CallbackManager.Factory.create()
         return b.root
     }
 
@@ -75,15 +87,72 @@ class LoginWithEmailFragment : Fragment() {
         }
         // End of google sign-in
 
-        // TODO: Sign-in with Facebook
+        // Sign-in with Facebook
+        b.facebookLoginButton.setOnClickListener {
+            signInWithFacebook()
+        }
 
-
+        // End of Facebook sign-in
 
         // testing btn
         b.btnSkipToNewsFeed.setOnClickListener {
             goToMainScreen()
         }
     }
+
+    //fb s
+    private fun signInWithFacebook() {
+        LoginManager.getInstance().logInWithReadPermissions(this, listOf("email", "public_profile"))
+        LoginManager.getInstance().registerCallback(callbackManager, facebookCallback)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private val facebookCallback = object : FacebookCallback<LoginResult> {
+
+        override fun onSuccess(result: LoginResult) {
+            val accessToken = result.accessToken
+            val credential = FacebookAuthProvider.getCredential(accessToken.token)
+            FirebaseAuth.getInstance().signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val graphRequest = GraphRequest.newMeRequest(accessToken) { json, _ ->
+                            val firstName = json?.optString("first_name")
+                            val lastName = json?.optString("last_name")
+                            val gender = json?.optString("gender")
+                            val email = json?.optString("email")
+
+                            auth.currentUser?.let { user ->
+                                addNewDocumentForNewUser(
+                                    user.uid,
+                                    firstName!!,
+                                    lastName!!,
+                                    gender!!,
+                                    email!!
+                                )
+                            }
+                        }
+
+                        val parameters = Bundle()
+                        parameters.putString("fields", "first_name,last_name,gender,email")
+                        graphRequest.parameters = parameters
+                        graphRequest.executeAsync()
+
+                        goToMainScreen()
+                    } else toastHere(task.exception.toString())
+                }
+        }
+
+        override fun onCancel() = toastHere("Login canceled.!.")
+        override fun onError(error: FacebookException) = toastHere(error.toString())
+    }
+
+    //fb e
+
 
     // Start of google sign-in  ##################################################    // gooooooogle
     private fun signInWithGoogle() {
@@ -110,12 +179,19 @@ class LoginWithEmailFragment : Fragment() {
 
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        auth.signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful) {
-                val intent = Intent(requireContext(), MainScreen::class.java)
-                    .putExtra("name", account.displayName)
-                startActivity(intent)
-            } else toastHere(it.exception.toString())
+        auth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                auth.currentUser?.let { user ->
+                    addNewDocumentForNewUser(
+                        user.uid,
+                        account.givenName.toString(),
+                        account.familyName.toString(),
+                        "Male",
+                        account.email.toString()
+                    )
+                }
+                goToMainScreen()
+            } else toastHere(task.exception.toString())
         }
     }
     // End of google sign-in  ####################################################    // gooooooogle
@@ -150,6 +226,26 @@ class LoginWithEmailFragment : Fragment() {
         } else toastHere("Email or pw empty")
     }
 
+    private fun addNewDocumentForNewUser(
+        userID: String,
+        firstName: String,
+        lastName: String,
+        gender: String,
+        email: String
+    ) {
+        val newUser = User(
+            userID,
+            firstName,
+            lastName,
+            0,
+            gender,
+            email
+        )
+        auth.currentUser?.uid?.let { it ->
+            dbFirestore.collection("users").document(it).set(newUser!!)
+        }
+    }
+
     private fun toastHere(msg: String) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
@@ -162,11 +258,7 @@ class LoginWithEmailFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (
-            auth.currentUser != null &&
-            auth.currentUser?.isEmailVerified == true
-        ) goToMainScreen()
+        if ((auth.currentUser != null && auth.currentUser?.isEmailVerified == true) || AccessToken.getCurrentAccessToken() != null) goToMainScreen()
     }
-
 
 }
