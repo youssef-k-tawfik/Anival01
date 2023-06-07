@@ -35,7 +35,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
+@Suppress("DEPRECATION")
 class LoginWithEmailFragment : Fragment() {
 
     private lateinit var b: FragmentLoginWithEmailBinding
@@ -101,10 +103,6 @@ class LoginWithEmailFragment : Fragment() {
     }
 
     //fb s
-    private fun signInWithFacebook() {
-        LoginManager.getInstance().logInWithReadPermissions(this, listOf("email", "public_profile"))
-        LoginManager.getInstance().registerCallback(callbackManager, facebookCallback)
-    }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -112,18 +110,27 @@ class LoginWithEmailFragment : Fragment() {
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
+    private fun signInWithFacebook() {
+        LoginManager.getInstance().logInWithReadPermissions(this, listOf("email", "public_profile"))
+        LoginManager.getInstance().registerCallback(callbackManager, facebookCallback)
+    }
+
     private val facebookCallback = object : FacebookCallback<LoginResult> {
 
         override fun onSuccess(result: LoginResult) {
             val accessToken = result.accessToken
+            Timber.tag("token111").i(accessToken.toString())
+
             val credential = FacebookAuthProvider.getCredential(accessToken.token)
-            FirebaseAuth.getInstance().signInWithCredential(credential)
+            Timber.tag("token222").i(credential.toString())
+            auth.signInWithCredential(credential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        Timber.tag("koos111").i("sign in facebook succesfful ya3am")
+
                         val graphRequest = GraphRequest.newMeRequest(accessToken) { json, _ ->
                             val firstName = json?.optString("first_name")
                             val lastName = json?.optString("last_name")
-                            val gender = json?.optString("gender")
                             val email = json?.optString("email")
 
                             auth.currentUser?.let { user ->
@@ -131,24 +138,33 @@ class LoginWithEmailFragment : Fragment() {
                                     user.uid,
                                     firstName!!,
                                     lastName!!,
-                                    gender!!,
+                                    "Male",
                                     email!!
                                 )
                             }
                         }
+                        Timber.tag("koos222").i("wslt hna")
 
                         val parameters = Bundle()
-                        parameters.putString("fields", "first_name,last_name,gender,email")
+                        parameters.putString("fields", "first_name,last_name,email")
                         graphRequest.parameters = parameters
                         graphRequest.executeAsync()
+                        Timber.tag("koos333").i("before going to main screen")
 
                         goToMainScreen()
-                    } else toastHere(task.exception.toString())
+                        Timber.tag("koos4444").i("after going to main screen")
+                    } else {
+                        toastHere("see logcat @koos5555555")
+                        Timber.tag("koos5555555").i(task.exception.toString())
+                    }
                 }
         }
 
         override fun onCancel() = toastHere("Login canceled.!.")
-        override fun onError(error: FacebookException) = toastHere(error.toString())
+        override fun onError(error: FacebookException) {
+            toastHere("see logcat @koos6666 'OnError'")
+            Timber.tag("koos6666").i(error.toString())
+        }
     }
 
     //fb e
@@ -241,8 +257,8 @@ class LoginWithEmailFragment : Fragment() {
             gender,
             email
         )
-        auth.currentUser?.uid?.let { it ->
-            dbFirestore.collection("users").document(it).set(newUser!!)
+        auth.currentUser?.uid?.let {
+            dbFirestore.collection("users").document(it).set(newUser)
         }
     }
 
