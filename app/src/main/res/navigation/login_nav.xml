@@ -34,6 +34,8 @@
         tools:layout="@layout/fragment_welcome_screen">
         <action
             android:id="@+id/action_welcomeScreenFragment_to_loginFragment2"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/welcomeScreenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

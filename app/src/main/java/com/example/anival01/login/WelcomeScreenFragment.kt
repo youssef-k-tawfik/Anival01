@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.anival01.R
 import com.example.anival01.databinding.FragmentWelcomeScreenBinding
 
 class WelcomeScreenFragment : Fragment() {
@@ -22,7 +24,9 @@ class WelcomeScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        b.btnGetStarted.setOnClickListener {
+            findNavController().navigate(R.id.action_welcomeScreenFragment_to_loginFragment2)
+        }
 
     }
 }
