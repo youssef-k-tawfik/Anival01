@@ -1,6 +1,5 @@
 package com.example.anival01.login
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +27,6 @@ class RegisterFragment : Fragment() {
     private lateinit var b: FragmentRegisterBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var spinnerGenders: Spinner
-    private lateinit var gender: String
     private lateinit var spinnerProviders: Spinner
     private lateinit var provider: String
     private lateinit var firstName: String
@@ -45,13 +42,11 @@ class RegisterFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         db = Firebase.firestore
         spinnerProviders = b.spinnerProviders
-        spinnerGenders = b.spinnerGender
         return b.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setGendersSpinner()
         setProvidersSpinner()
 
         b.btnRegister.setOnClickListener {
@@ -68,7 +63,7 @@ class RegisterFragment : Fragment() {
         // setting provider spinner
         val providers = arrayOf("@gmail.com", "@yahoo.com", "@hotmail.com", "@outlook.com")
         val adapterProviders =
-            ArrayAdapter(requireContext(), R.layout.simple_spinner_item, providers)
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, providers)
         adapterProviders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerProviders.adapter = adapterProviders
 
@@ -88,34 +83,6 @@ class RegisterFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Handle the case where no option is selected
                 provider = providers[0]
-            }
-        }
-    }
-
-    private fun setGendersSpinner() {
-        // setting gender spinner
-        val genders = arrayOf("Male", "Female")
-        val adapterGenders =
-            ArrayAdapter(requireContext(), R.layout.simple_spinner_item, genders)
-        adapterGenders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerGenders.adapter = adapterGenders
-
-        //on gender selected
-        spinnerGenders.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedOption = parent.getItemAtPosition(position).toString()
-                // Perform actions based on the selected option
-                gender = selectedOption
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Handle the case where no option is selected
-                gender = genders[0]
             }
         }
     }
@@ -163,9 +130,9 @@ class RegisterFragment : Fragment() {
     }
 
     private fun addNewDocumentForNewUser() {
-        val newUser = User(auth.currentUser?.uid!!, firstName, lastName, 0, gender, email)
-        auth.currentUser?.uid?.let { it ->
-            db.collection("users").document(it).set(newUser)
+        val newUser = User(auth.currentUser?.uid!!, firstName, lastName, 0, email)
+        auth.currentUser?.let { user ->
+            db.collection("users").document(user.uid).set(newUser)
         }
     }
 

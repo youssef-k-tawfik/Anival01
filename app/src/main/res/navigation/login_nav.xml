@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_nav"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/welcomeScreenFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_resendVerificationLinkFragment"
-            app:destination="@id/resendVerificationLinkFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -31,8 +28,12 @@
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
     <fragment
-        android:id="@+id/resendVerificationLinkFragment"
-        android:name="com.example.anival01.login.ResendVerificationLinkFragment"
-        android:label="fragment_resend_verification_link"
-        tools:layout="@layout/fragment_resend_verification_link" />
+        android:id="@+id/welcomeScreenFragment"
+        android:name="com.example.anival01.login.WelcomeScreenFragment"
+        android:label="fragment_welcome_screen"
+        tools:layout="@layout/fragment_welcome_screen">
+        <action
+            android:id="@+id/action_welcomeScreenFragment_to_loginFragment2"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

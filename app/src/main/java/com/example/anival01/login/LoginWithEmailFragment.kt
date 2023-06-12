@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.anival01.R
@@ -19,6 +20,7 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.FacebookSdk
 import com.facebook.GraphRequest
+import com.facebook.LoggingBehavior
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -45,6 +47,9 @@ class LoginWithEmailFragment : Fragment() {
     private lateinit var dbFirestore: FirebaseFirestore
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
+    private lateinit var email: String
+    private lateinit var password: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +61,15 @@ class LoginWithEmailFragment : Fragment() {
         FacebookSdk.sdkInitialize(requireContext().applicationContext)
         callbackManager = CallbackManager.Factory.create()
         return b.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        FacebookSdk.setIsDebugEnabled(true)
+        FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
+
+        // Initialize other components or perform other necessary actions
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +86,43 @@ class LoginWithEmailFragment : Fragment() {
 
         }
         b.tvResendVerificationLink.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_resendVerificationLinkFragment)
+            email = b.tiInsideEmail.text.toString()
+            password = b.tiInsidePassword.text.toString()
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        // use await to wait for the function to fully finish before continuing with the code
+                        auth.signInWithEmailAndPassword(email, password).await()
+                        // Go to News Feed
+                        if (auth.currentUser?.isEmailVerified == true) {
+                            withContext(Dispatchers.Main) {
+                                toastHere("Email already verified")
+                            }
+                        } else {
+                            auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                                val alertDialog = AlertDialog.Builder(requireContext())
+                                    .setTitle("Verification Email Sent")
+                                    .setMessage("A verification email has been sent to your email address. Please check your inbox and follow the instructions to verify your account.")
+                                    .setPositiveButton("OK") { dialog, _ ->
+                                        dialog.dismiss()
+                                        // Perform any necessary actions after the user acknowledges the dialog
+                                        // Nothing
+                                    }
+                                    .create()
+                                alertDialog.show()
+                            }
+                            auth.signOut()
+                        }
+
+                    } catch (e: Exception) {
+                        // Access UI components inside a coroutine using withContext()
+                        withContext(Dispatchers.Main) {
+                            toastHere(e.message.toString())
+                        }
+                    }
+                }
+            } else toastHere("Email or pw empty")
 
         }
 
@@ -93,7 +143,6 @@ class LoginWithEmailFragment : Fragment() {
         b.facebookLoginButton.setOnClickListener {
             signInWithFacebook()
         }
-
         // End of Facebook sign-in
 
         // testing btn
@@ -119,10 +168,15 @@ class LoginWithEmailFragment : Fragment() {
 
         override fun onSuccess(result: LoginResult) {
             val accessToken = result.accessToken
-            Timber.tag("token111").i(accessToken.toString())
+            Timber.tag("token111").i(accessToken.toString()) // same1
+            Timber.tag("token111111111111")
+                .i(AccessToken.getCurrentAccessToken().toString()) // same1
+            Timber.tag("token1124@#$11111")
+                .i(AccessToken.getCurrentAccessToken()?.token) // token only
 
             val credential = FacebookAuthProvider.getCredential(accessToken.token)
             Timber.tag("token222").i(credential.toString())
+
             auth.signInWithCredential(credential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -138,7 +192,6 @@ class LoginWithEmailFragment : Fragment() {
                                     user.uid,
                                     firstName!!,
                                     lastName!!,
-                                    "Male",
                                     email!!
                                 )
                             }
@@ -197,14 +250,15 @@ class LoginWithEmailFragment : Fragment() {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                auth.currentUser?.let { user ->
-                    addNewDocumentForNewUser(
-                        user.uid,
-                        account.givenName.toString(),
-                        account.familyName.toString(),
-                        "Male",
-                        account.email.toString()
-                    )
+                if (task.result?.additionalUserInfo?.isNewUser == true) {
+                    auth.currentUser?.let { user ->
+                        addNewDocumentForNewUser(
+                            user.uid,
+                            account.givenName.toString(),
+                            account.familyName.toString(),
+                            account.email.toString()
+                        )
+                    }
                 }
                 goToMainScreen()
             } else toastHere(task.exception.toString())
@@ -213,8 +267,8 @@ class LoginWithEmailFragment : Fragment() {
     // End of google sign-in  ####################################################    // gooooooogle
 
     private fun loginUser() {
-        val email = b.tiInsideEmail.text.toString()
-        val password = b.tiInsidePassword.text.toString()
+        email = b.tiInsideEmail.text.toString()
+        password = b.tiInsidePassword.text.toString()
         if (email.isNotEmpty() && password.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -246,7 +300,6 @@ class LoginWithEmailFragment : Fragment() {
         userID: String,
         firstName: String,
         lastName: String,
-        gender: String,
         email: String
     ) {
         val newUser = User(
@@ -254,7 +307,6 @@ class LoginWithEmailFragment : Fragment() {
             firstName,
             lastName,
             0,
-            gender,
             email
         )
         auth.currentUser?.uid?.let {
@@ -275,6 +327,7 @@ class LoginWithEmailFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if ((auth.currentUser != null && auth.currentUser?.isEmailVerified == true) || AccessToken.getCurrentAccessToken() != null) goToMainScreen()
+//        toastHere(AccessToken.getCurrentAccessToken().toString())
     }
 
 }
