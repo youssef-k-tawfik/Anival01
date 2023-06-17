@@ -85,7 +85,5 @@ dependencies {
     implementation (libs.facebook.login)
     implementation (libs.facebook.android.sdk)
 
-// shadow for buttons
-    implementation (libs.cardview)
 
 }

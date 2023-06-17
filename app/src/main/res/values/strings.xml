@@ -20,4 +20,5 @@
     <string name="facebook_app_secret">f92c08ec0758e3f1b57ec34a25214e17</string>
     <string name="facebook_client_token">9f209caeda5f63ef32cbe2a5ece468f1</string>
     <string name="anival_points">Anival Points</string>
+    <string name="get_started">GET STARTED</string>
 </resources>
