@@ -20,8 +20,6 @@ class WelcomeScreenFragment : Fragment() {
     private lateinit var b: FragmentWelcomeScreenBinding
     private lateinit var stroke0: AppCompatImageView
     private lateinit var stroke1: AppCompatImageView
-    private lateinit var stroke2: AppCompatImageView
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +29,6 @@ class WelcomeScreenFragment : Fragment() {
 
         stroke0 = b.strokeBa4a0
         stroke1 = b.strokeBa4a1
-        stroke2 = b.strokeBa4a2
 
         return b.root
     }
@@ -43,11 +40,8 @@ class WelcomeScreenFragment : Fragment() {
         }
 
         //animation
-
         animateImageView(stroke0, 0)
-        stroke1.postDelayed({ animateImageView(stroke1, 2000) }, 2000)
-//        stroke2.postDelayed({ animateImageView(stroke2, 4000) }, 4000)
-
+        stroke1.postDelayed({ animateImageView(stroke1, 1500) }, 1500)
     }
 
     private fun animateImageView(view: View, delay: Long) {
@@ -61,10 +55,8 @@ class WelcomeScreenFragment : Fragment() {
         scaleAnimatorY.duration = 1000
         scaleAnimatorY.interpolator = AccelerateDecelerateInterpolator()
 
-        val alphaAnimator = ObjectAnimator.ofFloat(view, "alpha", 0.5f, 0f)
+        val alphaAnimator = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
         alphaAnimator.duration = 1000
-        alphaAnimator.startDelay = 500
-        alphaAnimator.interpolator = AccelerateDecelerateInterpolator()
 
         val resetAnimatorX = ObjectAnimator.ofFloat(view, "scaleX", 1f)
         resetAnimatorX.duration = 0
