@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.anival01.databinding.FragmentWelcomeScreenBinding
 
 
@@ -27,21 +26,21 @@ class WelcomeScreenFragment : Fragment() {
     ): View {
         b = FragmentWelcomeScreenBinding.inflate(layoutInflater)
 
-        stroke0 = b.strokeBa4a0
-        stroke1 = b.strokeBa4a1
+//        stroke0 = b.strokeBa4a0
+//        stroke1 = b.strokeBa4a1
 
         return b.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        b.btnGetStarted.setOnClickListener {
-            findNavController().navigate(com.example.anival01.R.id.action_welcomeScreenFragment_to_loginFragment2)
-        }
+//        b.btnGetStarted.setOnClickListener {
+//            findNavController().navigate(com.example.anival01.R.id.action_welcomeScreenFragment_to_loginFragment2)
+//        }
 
         //animation
-        animateImageView(stroke0, 0)
-        stroke1.postDelayed({ animateImageView(stroke1, 1500) }, 1500)
+//        animateImageView(stroke0, 0)
+//        stroke1.postDelayed({ animateImageView(stroke1, 1500) }, 1500)
     }
 
     private fun animateImageView(view: View, delay: Long) {
@@ -69,8 +68,6 @@ class WelcomeScreenFragment : Fragment() {
 
         val animatorSet = AnimatorSet()
         animatorSet.play(scaleAnimatorX).with(scaleAnimatorY).with(alphaAnimator)
-        animatorSet.play(resetAnimatorX).with(resetAnimatorY).with(resetAnimatorAlpha)
-            .after(alphaAnimator)
         animatorSet.startDelay = delay
         animatorSet.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {

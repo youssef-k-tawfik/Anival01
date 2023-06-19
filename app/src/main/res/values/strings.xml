@@ -4,7 +4,7 @@
     <string name="resend_verification_link_from_here"><u>Resend verification email here</u>.</string>
     <string name="new_user_click_here_to_register">New user? <u>Click here to register</u>.</string>
     <string name="login">Login</string>
-    <string name="email_address">Email address</string>
+    <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
