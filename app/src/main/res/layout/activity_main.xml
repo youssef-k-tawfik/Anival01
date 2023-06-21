@@ -8,20 +8,6 @@
     android:background="@drawable/screen0_img_screen_size"
     tools:context=".login.MainActivity">
 
-    <!--    <androidx.fragment.app.FragmentContainerView-->
-    <!--        android:id="@+id/fragmentContainerView"-->
-    <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        app:defaultNavHost="true"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:navGraph="@navigation/login_nav"-->
-    <!--        tools:layout="@layout/fragment_welcome_screen" />-->
-
-<!--    android:layout_marginTop="-450dp"-->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgAnivalLogo"
         android:layout_width="wrap_content"
@@ -61,8 +47,10 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGetStarted"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="50dp"
         android:background="@drawable/button_gradient"
         android:fontFamily="@font/bebas_neue"
@@ -79,9 +67,9 @@
         android:id="@+id/clLoginRootContainer"
         android:layout_width="match_parent"
         android:layout_height="500dp"
+        android:padding="16dp"
         android:layout_marginBottom="-500dp"
         android:background="@drawable/login_background"
-        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -112,7 +100,9 @@
             app:layout_constraintTop_toBottomOf="@+id/textLogin">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmailSignIn"
                 android:layout_width="match_parent"
+                android:inputType="textEmailAddress"
                 android:layout_height="wrap_content"
                 android:textColor="#44AC93" />
 
@@ -131,8 +121,10 @@
             app:layout_constraintTop_toBottomOf="@+id/emailinput">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputPasswordSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:textColor="#44AC93" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -189,7 +181,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSignInWithEmail"
-            android:layout_width="350dp"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/button_gradient"
@@ -229,9 +221,9 @@
         android:id="@+id/clRegisterRootContainer"
         android:layout_width="match_parent"
         android:layout_height="500dp"
+        android:padding="16dp"
         android:layout_marginBottom="-500dp"
         android:background="@drawable/login_background"
-        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -262,6 +254,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCreateNewAccount">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registerFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#44AC93" />
@@ -281,6 +274,7 @@
             app:layout_constraintTop_toBottomOf="@+id/firstNameinput">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registerLastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#44AC93" />
@@ -293,7 +287,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:hint="@string/email_address"
             android:textColorHint="#575B66"
             app:layout_constraintEnd_toStartOf="@+id/spinnerProviders"
@@ -301,6 +295,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lastNameinput">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registerEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -312,9 +307,11 @@
             android:id="@+id/spinnerProviders"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#44AC93"
             app:layout_constraintBottom_toBottomOf="@+id/emailInput"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/emailInput" />
+            app:layout_constraintTop_toTopOf="@+id/emailInput"
+            tools:targetApi="lollipop" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -331,6 +328,7 @@
             app:layout_constraintTop_toBottomOf="@+id/emailInput">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registerPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -340,7 +338,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSignUp"
-            android:layout_width="350dp"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/button_gradient"
@@ -356,7 +354,7 @@
             android:id="@+id/alreadyHaveAnAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="100dp"
+            android:layout_marginEnd="50dp"
             android:text="@string/already_have_an_account"
             android:textColor="#6A6E79"
             app:layout_constraintBottom_toBottomOf="parent"
