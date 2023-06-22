@@ -9,6 +9,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -49,6 +50,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
+
 @Suppress("DEPRECATION") //just to remove warnings
 class MainActivity : AppCompatActivity() {
     private lateinit var b: ActivityMainBinding
@@ -64,6 +66,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firstName: String
     private lateinit var lastName: String
     private lateinit var provider: String
+    private var startY: Float = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,6 +135,7 @@ class MainActivity : AppCompatActivity() {
                             }
                         } else {
                             auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                                //TODO: Create a modern dialog
                                 val alertDialog = AlertDialog.Builder(this@MainActivity)
                                     .setTitle("Verification Email Sent")
                                     .setMessage("A verification email has been sent to your email address. Please check your inbox and follow the instructions to verify your account.")
@@ -201,6 +205,29 @@ class MainActivity : AppCompatActivity() {
             registerUser()
         }
 
+        // swipe down to go back to sign-in layout
+        // ignore warning from studio
+        b.clRegisterRootContainer.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    startY = motionEvent.y
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    val endY = motionEvent.y
+                    val deltaY = endY - startY
+                    if (deltaY > 0 && deltaY > 100) {
+                        // Swipe down detected
+                        b.tvGoToSignIn.performClick()
+                        true
+                    } else {
+                        view.performClick() // Call performClick for regular click events
+                    }
+                }
+                else -> false
+            }
+        }
+
     }
 
     private fun animateLayout(layout: ConstraintLayout, from: Int, to: Int, duration: Long = 500) {
@@ -216,7 +243,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // General coroutines controller
-    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private fun toastHere(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
 
@@ -426,6 +453,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 auth.createUserWithEmailAndPassword(email, password).await()
                 auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                    // TODO: New Dialog (Modern)
                     val alertDialog = androidx.appcompat.app.AlertDialog.Builder(this@MainActivity)
                         .setTitle("Verification Email Sent")
                         .setMessage("A verification email has been sent to your email address. Please check your inbox and follow the instructions to verify your account.")

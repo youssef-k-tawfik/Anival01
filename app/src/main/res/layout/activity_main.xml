@@ -67,9 +67,9 @@
         android:id="@+id/clLoginRootContainer"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:padding="16dp"
         android:layout_marginBottom="-500dp"
         android:background="@drawable/login_background"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -102,8 +102,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEmailSignIn"
                 android:layout_width="match_parent"
-                android:inputType="textEmailAddress"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:textColor="#44AC93" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -116,6 +116,8 @@
             android:layout_marginTop="8dp"
             android:hint="@string/password"
             android:textColorHint="#575B66"
+            app:endIconMode="password_toggle"
+            app:endIconTint="#44AC93"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailinput">
@@ -156,7 +158,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/button_gradient"
+            android:drawableStart="@drawable/google_icon_01"
             android:fontFamily="@font/bebas_neue"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:text="@string/sign_in_with_google"
             android:textColor="@color/white"
             android:textSize="15sp"
@@ -171,7 +176,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/button_gradient"
+            android:drawableStart="@drawable/facebook_icon_01"
             android:fontFamily="@font/bebas_neue"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:text="@string/sign_in_with_facebook"
             android:textColor="@color/white"
             android:textSize="15sp"
@@ -221,9 +229,9 @@
         android:id="@+id/clRegisterRootContainer"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:padding="16dp"
         android:layout_marginBottom="-500dp"
         android:background="@drawable/login_background"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -323,6 +331,7 @@
             android:hint="@string/password"
             android:textColorHint="#575B66"
             app:endIconMode="password_toggle"
+            app:endIconTint="#44AC93"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailInput">

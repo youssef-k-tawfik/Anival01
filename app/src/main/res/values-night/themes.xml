@@ -3,5 +3,6 @@
     <style name="Base.Theme.Anival01" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
          <item name="colorPrimary">#44AC93</item>
+        <item name="colorSecondary">#1a1e29</item>
     </style>
 </resources>

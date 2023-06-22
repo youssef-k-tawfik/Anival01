@@ -8,7 +8,7 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="back_to_login">Back to Login</string>
-    <string name="you_have_error_opop_points">You have error?opop points</string>
+    <string name="you_have_error_opop_points">op</string>
     <string name="facebook_app_id">260468653320228</string>
     <string name="fb_login_protocol_scheme">fb260468653320228</string>
     <string name="facebook_app_secret">f92c08ec0758e3f1b57ec34a25214e17</string>
@@ -22,4 +22,6 @@
     <string name="create_account">Create Account</string>
     <string name="create_new_account">Create New Account</string>
     <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_out">sign out</string>
+    <string name="your_points">Your Points</string>
 </resources>
