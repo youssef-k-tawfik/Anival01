@@ -70,6 +70,9 @@ class MainScreen : AppCompatActivity() {
         b.btnLeftArrow.background = null
         b.btnRightArrow.background = null
 
+        // TODO: tooltip
+
+
         // Perform logging out
         b.btnSignOut.setOnClickListener {
             //fb logout

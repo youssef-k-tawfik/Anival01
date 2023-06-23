@@ -84,7 +84,8 @@ dependencies {
     //facebook login
     implementation (libs.facebook.login)
     implementation (libs.facebook.android.sdk)
-    implementation (libs.shimmer)
+
+
 
 
 }
