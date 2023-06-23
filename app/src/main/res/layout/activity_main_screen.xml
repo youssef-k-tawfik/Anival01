@@ -7,15 +7,24 @@
     android:background="?attr/colorSecondary"
     tools:context=".mainScreen.MainScreen">
 
+    <TextView
+        android:id="@+id/logoHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/mscreenLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-290dp"
         android:src="@drawable/logo_final_01"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/logoHolder"
+        app:layout_constraintEnd_toEndOf="@+id/logoHolder"
+        app:layout_constraintStart_toStartOf="@+id/logoHolder"
+        app:layout_constraintTop_toTopOf="@+id/logoHolder" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -27,16 +36,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/newsHolder"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="150dp"-->
-    <!--        android:layout_marginTop="150dp"-->
-    <!--        android:scaleType="centerCrop"-->
-    <!--        android:src="@drawable/news1"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNewsHolder"
         android:layout_width="match_parent"
@@ -46,9 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!---->
-
-    <!-- Left Arrow -->
     <ImageButton
         android:id="@+id/btnLeftArrow"
         android:layout_width="wrap_content"
@@ -59,7 +55,6 @@
         app:layout_constraintEnd_toStartOf="@+id/radioGroup"
         app:layout_constraintTop_toTopOf="@+id/radioGroup" />
 
-    <!-- Right Arrow -->
     <ImageButton
         android:id="@+id/btnRightArrow"
         android:layout_width="wrap_content"
@@ -70,7 +65,6 @@
         app:layout_constraintStart_toEndOf="@+id/radioGroup"
         app:layout_constraintTop_toTopOf="@+id/radioGroup" />
 
-    <!-- Radio Group -->
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
@@ -83,9 +77,9 @@
 
         <RadioButton
             android:id="@+id/radioButton0"
-            android:checked="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:checked="true" />
 
         <RadioButton
             android:id="@+id/radioButton1"
@@ -99,17 +93,17 @@
 
     </RadioGroup>
 
-    <!--    -->
-
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/bebas_neue"
+        android:gravity="center"
         android:text="@string/your_points"
         android:textColor="@color/white"
         android:textSize="50sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />

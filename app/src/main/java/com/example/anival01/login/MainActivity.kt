@@ -82,8 +82,8 @@ class MainActivity : AppCompatActivity() {
         // strokes animation
         stroke0 = b.strokeBa4a0
         stroke1 = b.strokeBa4a1
-        animateImageView(stroke0, 0)
-        stroke1.postDelayed({ animateImageView(stroke1, 1500) }, 1500)
+        animateStrokes(stroke0, 0)
+        stroke1.postDelayed({ animateStrokes(stroke1, 1500) }, 1500)
 
         b.btnGetStarted.setOnClickListener {
             // remove button
@@ -213,6 +213,7 @@ class MainActivity : AppCompatActivity() {
                     startY = motionEvent.y
                     true
                 }
+
                 MotionEvent.ACTION_UP -> {
                     val endY = motionEvent.y
                     val deltaY = endY - startY
@@ -224,6 +225,7 @@ class MainActivity : AppCompatActivity() {
                         view.performClick() // Call performClick for regular click events
                     }
                 }
+
                 else -> false
             }
         }
@@ -247,7 +249,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun toastHere(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
 
-    private fun animateImageView(view: View, delay: Long) {
+    private fun animateStrokes(view: View, delay: Long) {
         view.visibility = View.VISIBLE
 
         val scaleAnimatorX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 2f)
@@ -518,17 +520,17 @@ class MainActivity : AppCompatActivity() {
         userID: String,
         firstName: String,
         lastName: String,
-        email: String
+        email: String,
     ) {
         val newUser = User(
             userID,
             firstName,
             lastName,
             0,
-            email
+            email,
         )
-        auth.currentUser?.uid?.let {
-            dbFirestore.collection("users").document(it).set(newUser)
+        auth.currentUser?.let { user ->
+            dbFirestore.collection("users").document(user.uid).set(newUser)
         }
     }
 

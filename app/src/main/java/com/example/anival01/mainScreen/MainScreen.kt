@@ -32,16 +32,21 @@ class MainScreen : AppCompatActivity() {
     private lateinit var b: ActivityMainScreenBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-
-    //    private lateinit var firstName: String
-//    private lateinit var lastName: String
     private var points: Int = -16
+
+//    private lateinit var firstName: String
+//    private lateinit var lastName: String
 
     // news
     private val newsImages = arrayOf(
         com.example.anival01.R.drawable.news0,
         com.example.anival01.R.drawable.news1,
         com.example.anival01.R.drawable.news2
+    )
+    private val newsImagesURLs = arrayOf(
+        "https://www.facebook.com/events/1608923296265236",
+        "https://www.facebook.com/Anival.Eg",
+        "https://www.facebook.com/groups/341255403415969"
     )
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
@@ -113,7 +118,8 @@ class MainScreen : AppCompatActivity() {
         // Set up the RecyclerView and its adapter
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = layoutManager
-        imageAdapter = NewsImageAdapter(newsImages)
+//        imageAdapter = NewsImageAdapter(newsImages)
+        imageAdapter = NewsImageAdapter(newsImages, newsImagesURLs)
         recyclerView.adapter = imageAdapter
 
         handler = Handler()

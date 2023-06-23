@@ -5,5 +5,5 @@ data class User(
     val firstName: String,
     val lastName: String,
     val points: Long,
-    val email: String
+    val email: String,
 )
